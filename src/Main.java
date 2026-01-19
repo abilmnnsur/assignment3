@@ -1,31 +1,26 @@
-import model.Player;
-import model.Team;
-import repository.MatchRepository;
-import service.PlayerService;
-import service.TeamService;
+import model.Article;
+import repository.ArticleRepository;
+import service.TrendService;
 
 import java.util.List;
+import java.util.Map;
 
 public class Main {
     public static void main(String[] args) {
 
-        TeamService teamService = new TeamService();
-        PlayerService playerService = new PlayerService();
-        MatchRepository matchRepo = new MatchRepository();
+        ArticleRepository articleRepo = new ArticleRepository();
+        TrendService trendService = new TrendService();
 
-        System.out.println("=== TOP TEAMS ===");
-        List<Team> teams = teamService.getTopTeams();
-        for (Team t : teams) {
-            System.out.println(t.getName() + " | rating: " + t.getTeamRating());
+        System.out.println("=== ARTICLES ===");
+        List<Article> articles = articleRepo.getAllArticles();
+        for (Article a : articles) {
+            System.out.println(a.getTitle() + " | " + a.getSource() + " | by " + a.getAuthorName());
         }
 
-        System.out.println("\n=== TOP PLAYERS ===");
-        List<Player> players = playerService.getTopPlayers();
-        for (Player p : players) {
-            System.out.println(p.getNickname() + " | rating: " + p.getRating());
+        System.out.println("\n=== TRENDING TAGS ===");
+        Map<String, Integer> trends = trendService.getTrendingTags();
+        for (String tag : trends.keySet()) {
+            System.out.println(tag + " → " + trends.get(tag) + " articles");
         }
-
-        System.out.println("\n=== MATCHES ===");
-        matchRepo.getAllMatches().forEach(System.out::println);
     }
 }
