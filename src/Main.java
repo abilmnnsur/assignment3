@@ -1,12 +1,16 @@
 import utils.util;
 import java.sql.Connection;
+import repository.TeamRepository;
+import model.Team;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        try (Connection conn = util.getConnection()) {
-            System.out.println("Connected to database successfully!");
-        } catch (Exception e) {
-            e.printStackTrace();
+        TeamRepository repo = new TeamRepository();
+        List<Team> teams = repo.getAllTeams();
+
+        for (Team t : teams) {
+            System.out.println(t.getName() + " | " + t.getCountry() + " | rating: " + t.getTeamRating());
         }
     }
 }
