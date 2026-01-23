@@ -6,6 +6,7 @@ import utils.util;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import model.InventoryItem;
 
 public class InventoryRepository {
 
@@ -58,5 +59,39 @@ public class InventoryRepository {
         }
 
         return result;
+    }
+    public List<InventoryItem> getInventoryByPlayerId(int playerId) {
+        List<InventoryItem> items = new ArrayList<>();
+
+        String sql = """
+        SELECT w.weapon_name, s.skin_name, s.rarity,
+               s.market_price, pi.quantity
+        FROM player_inventory pi
+        JOIN skins s ON s.skin_id = pi.skin_id
+        JOIN weapons w ON w.weapon_id = s.weapon_id
+        WHERE pi.player_id = ?
+    """;
+
+        try (Connection conn = util.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, playerId);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    items.add(new InventoryItem(
+                            rs.getString("weapon_name"),
+                            rs.getString("skin_name"),
+                            rs.getString("rarity"),
+                            rs.getDouble("market_price"),
+                            rs.getInt("quantity")
+                    ));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return items;
     }
 }

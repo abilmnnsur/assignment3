@@ -117,5 +117,30 @@ public class Main {
             System.out.println("\n=== BARLYQ NATIZHE SHYQTY ===");
         }
 
+
+        System.out.println("\n=== PLAYER INVENTORY ===");
+
+        int playerId = 1;
+        System.out.println("Inventory of player ID: " + playerId);
+
+        var inventoryItems = inventoryService.getPlayerInventory(playerId);
+
+        double total = 0;
+
+        for (var item : inventoryItems) {
+            double value = item.getPrice() * item.getQuantity();
+            total += value;
+
+            System.out.println(
+                    item.getWeaponName() + " | " +
+                            item.getSkinName() + " | " +
+                            item.getRarity() + " | $" +
+                            item.getPrice() + " x" +
+                            item.getQuantity()
+            );
+        }
+
+        System.out.println("Total inventory value: $" + String.format("%.2f", total));
+
     }}
 
