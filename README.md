@@ -105,7 +105,7 @@ Each player has an inventory:
 * quantity
 * market price
 Relations:
-* Player ↔ Skin = many-to-many (`player_inventory`)
+* Player ↔ Skin = many-to-many (player_inventory)
 * Skin ↔ Weapon = many-to-one
 
  Features:
