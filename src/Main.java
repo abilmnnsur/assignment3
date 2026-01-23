@@ -13,6 +13,10 @@ import utils.util;
 import java.sql.Connection;
 import java.util.List;
 import java.util.Map;
+import model.InventoryValue;
+import model.MapStats;
+import repository.MapRepository;
+import service.InventoryService;
 
 public class Main {
 
@@ -97,8 +101,21 @@ public class Main {
         for (String tag : trends.keySet()) {
             System.out.println(tag + " -> " + trends.get(tag) + " articles");
         }
+        InventoryService inventoryService = new InventoryService();
+        MapRepository mapRepository = new MapRepository();
 
-        // Sony
-        System.out.println("\n=== BARLYQ NATIZHE SHYQTY ===");
-    }
-}
+        System.out.println("\n=== TOP INVENTORIES (TOTAL SKIN VALUE) ===");
+        for (InventoryValue dto : inventoryService.getTopInventories()) {
+            System.out.println(dto.getNickname() + " -> $" + String.format("%.2f", dto.getTotalValue()));
+        }
+
+        System.out.println("\n=== MOST PLAYED MAPS ===");
+        for (MapStats m : mapRepository.getMostPlayedMaps()) {
+            System.out.println(m.getMapName() + " -> " + m.getMatchesCount() + " matches");
+
+            // Sony
+            System.out.println("\n=== BARLYQ NATIZHE SHYQTY ===");
+        }
+
+    }}
+
