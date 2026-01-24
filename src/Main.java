@@ -112,9 +112,6 @@ public class Main {
         System.out.println("\n=== MOST PLAYED MAPS ===");
         for (MapStats m : mapRepository.getMostPlayedMaps()) {
             System.out.println(m.getMapName() + " -> " + m.getMatchesCount() + " matches");
-
-            // Sony
-            System.out.println("\n=== BARLYQ NATIZHE SHYQTY ===");
         }
 
 
@@ -141,6 +138,8 @@ public class Main {
         }
 
         System.out.println("Total inventory value: $" + String.format("%.2f", total));
+        // Sony
+            System.out.println("\n=== BARLYQ NATIZHE SHYQTY ===");
 
     }}
 
