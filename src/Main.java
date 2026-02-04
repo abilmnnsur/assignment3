@@ -1,3 +1,4 @@
+import core.Printable;
 import model.Article;
 import model.Player;
 import model.Team;
@@ -13,6 +14,7 @@ import utils.util;
 import java.sql.Connection;
 import java.util.List;
 import java.util.Map;
+
 import model.InventoryValue;
 import model.MapStats;
 import repository.MapRepository;
@@ -21,6 +23,7 @@ import service.InventoryService;
 public class Main {
 
     public static void main(String[] args) {
+
         // database qosylyp turma tekseremiz
         try (Connection conn = util.getConnection()) {
             System.out.println("Connected to database successfully!");
@@ -36,7 +39,7 @@ public class Main {
         MatchRepository matchRepository = new MatchRepository();
         ArticleRepository articleRepository = new ArticleRepository();
 
-        // En qiyn metodtar or servicetar
+        // servicetar
         TeamService teamService = new TeamService();
         PlayerService playerService = new PlayerService();
         TrendService trendService = new TrendService();
@@ -67,14 +70,23 @@ public class Main {
             );
         }
 
-        // Oiynshylar by rating
+        // Top players by rating
         System.out.println("\n=== EN UZDIK PLAYER BY RATING ===");
         List<Player> topPlayers = playerService.getTopPlayers();
-        for (Player p : topPlayers) {
+        int limit = Math.min(5, topPlayers.size());
+        for (Player p : topPlayers.subList(0, limit)) {
             double kd = playerService.calculateKD(p);
             System.out.println(p.getNickname() +
                     " | rating=" + p.getRating() +
                     " | KD=" + String.format("%.2f", kd));
+        }
+
+        // Top players by kills (ФИКС ТВОЕЙ ОШИБКИ)
+        System.out.println("\n=== TOP 5 PLAYERS BY KILLS ===");
+        List<Player> topGetkills = playerService.getKills();
+        int limitKills = Math.min(5, topGetkills.size());
+        for (Player p : topGetkills.subList(0, limitKills)) {
+            System.out.println(p.getNickname() + " | kills=" + p.getKills());
         }
 
         // Matchtar
@@ -101,6 +113,8 @@ public class Main {
         for (String tag : trends.keySet()) {
             System.out.println(tag + " -> " + trends.get(tag) + " articles");
         }
+
+        // Inventory + maps
         InventoryService inventoryService = new InventoryService();
         MapRepository mapRepository = new MapRepository();
 
@@ -112,18 +126,14 @@ public class Main {
         System.out.println("\n=== MOST PLAYED MAPS ===");
         for (MapStats m : mapRepository.getMostPlayedMaps()) {
             System.out.println(m.getMapName() + " -> " + m.getMatchesCount() + " matches");
-
-
         }
 
-
+        // Player inventory
         System.out.println("\n=== PLAYER INVENTORY ===");
-
         int playerId = 1;
         System.out.println("Inventory of player ID: " + playerId);
 
         var inventoryItems = inventoryService.getPlayerInventory(playerId);
-
         double total = 0;
 
         for (var item : inventoryItems) {
@@ -140,8 +150,14 @@ public class Main {
         }
 
         System.out.println("Total inventory value: $" + String.format("%.2f", total));
-        // Sony
+
         System.out.println("\n=== BARLYQ NATIZHE SHYQTY ===");
 
-    }}
-
+        Printable.printSeparator();
+        for (Article a : articles) {
+            a.printToConsole();
+            System.out.println("Preview: " + a.shortPreview());
+        }
+        Printable.printSeparator();
+    }
+}

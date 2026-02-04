@@ -25,4 +25,7 @@ public class Team {
     public double getTeamRating() {
         return teamRating;
     }
+    public void setTeamId(int teamId) {
+        this.teamId = teamId;
+    }
 }
