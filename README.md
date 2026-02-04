@@ -1,15 +1,13 @@
 READMEEEE
 
 
-#  CS2 Esports Hub — Database & Java Project
+ CS2 Esports Hub — Database & Java Project
 
-##  About the project
+  About the project
 
-This project is a **CS2 Esports Hub** built with **PostgreSQL + Java (JDBC)**.
-The idea is inspired by **HLTV** and **CS2 inventory system**.
-
+This project is a CS2 Esports Hub built with PostgreSQL + Java (JDBC).
+The idea is inspired by HLTV and CS2 inventory system.
 The application stores:
-
 * teams
 * players
 * matches
@@ -19,43 +17,37 @@ The application stores:
 * maps from CS2
 * analytics (top players, inventories, maps, trends)
 
----
+  Database design (SQL first)
 
-##  Database design (SQL first)
+I started with database schema
 
-I started with **database schema**
+Tables created:
+* teams
+* players
+* tournaments
+* matches
+* articles
+* tags
+* article_tags (many-to-many)
+* weapons
+* skins
+* player_inventory (many-to-many)
+* maps
 
-### Tables created:
-
-* `teams`
-* `players`
-* `tournaments`
-* `matches`
-* `articles`
-* `tags`
-* `article_tags` (many-to-many)
-* `weapons`
-* `skins`
-* `player_inventory` (many-to-many)
-* `maps`
-
-### Key database features:
-
+Key database features:
 * Primary keys (PK)
 * Foreign keys (FK)
-* `ON DELETE CASCADE / SET NULL`
-* `CHECK` constraints
-* `UNIQUE` constraints
+* ON DELETE CASCADE / SET NULL
+* CHECK constraints
+* UNIQUE constraints
 * Many-to-many relations
 * Real CS2 logic (inventory, skins, maps)
 
-All database structure is defined in **schema.sql**.
+All database structure is defined in schema.sql.
 
----
+ Test data
 
-##  Test data
-
-After creating tables, I added **realistic test data**:
+After creating tables, I added realistic test data:
 
 * CS2 teams (Vitality, Furia, Mouz, Spirit, Falcons, FaZe)
 * Players (ZywOo,Molodoy,Donk, m0NESY, ropz)
@@ -63,12 +55,10 @@ After creating tables, I added **realistic test data**:
 * CS2 maps (Mirage, Inferno, Nuke, Anubis, Ancient)
 * Weapons (AK-47, AWP, M4A1-S, etc.)
 * Skins with rarity and market prices
-
 This allows running analytics immediately.
 
----
 
-##   project setup
+project setup
 
 Project structure:
 
@@ -79,31 +69,25 @@ Project structure:
 * `utils` — database connection
 * `Main` — demo controller
 
----
 
-##  JDBC & PreparedStatement
 
-All database access uses **PreparedStatement**, not Statement.
+JDBC & PreparedStatement
 
+All database access uses PreparedStatement, not Statement.
 Why:
-
 * safer (no SQL injection)
 * cleaner code
 * professional approach
-
 Each repository:
-
 * opens connection
 * executes SQL
 * maps ResultSet to objects
 * closes resources automatically
 
----
 
-##  Business logic (Service layer)
 
+ Business logic (Service layer)
 Implemented logic such as:
-
 * Top teams by rating
 * Top players by rating
 * K/D calculation
@@ -113,65 +97,46 @@ Implemented logic such as:
 * Player arsenal view (skins + weapons)
 
 
-
----
-
-## Player Arsenal 
-
+ Player Arsenal 
 Each player has an inventory:
-
 * weapons
 * skins
 * rarity
 * quantity
 * market price
-
 Relations:
-
-* Player ↔ Skin = many-to-many (`player_inventory`)
+* Player ↔ Skin = many-to-many (player_inventory)
 * Skin ↔ Weapon = many-to-one
 
-### Features:
-
+ Features:
 * show all skins of a player
 * calculate total inventory value
 * top players by inventory value
 
 
----
-
-##  Maps analytics
-
+ Maps analytics
 Added CS2 maps and linked them to matches.
-
 Analytics:
-
 * most played maps
 * map usage statistics
 
-
----
-
-##   Custom Exceptions
+ Custom Exceptions
 
 Created custom exceptions:
 
-* `InvalidInputException`
-* `ResourceNotFoundException`
-* `DuplicateResourceException`
-* `DatabaseOperationException`
+* InvalidInputException
+* ResourceNotFoundException
+* DuplicateResourceException
+* DatabaseOperationException
 
 Why:
-
 * separate business errors from SQL errors
 * cleaner code
 * easier debugging
 
----
 
-##  Main 
-
-`Main.java` demonstrates:
+Main 
+Main.java demonstrates:
 
 * database connection
 * teams and players output
@@ -182,26 +147,21 @@ Why:
 * analytics results
 
 
+ Git Commit History 
 
----
-
-## Git Commit History 
-
-1. `init project and database schema`
-2. `add PostgreSQL JDBC connection`
-3. `add team entity and repository`
-4. `add player and match repositories`
-5. `add service layer analytics`
-6. `add articles and trending tags`
-7. `add cs2 arsenal inventory and map analytics`
-8. `add custom exception handling layer`
-9. `add player inventory view with skins`
-10. `finalize main demo and documentation`
-
-
----
-
-##  What I learned
+1. init project and database schema
+2. add PostgreSQL JDBC connection
+3. add team entity and repository
+4. add player and match repositories
+5. add service layer analytics
+6. add articles and trending tags
+7. add cs2 arsenal inventory and map analytics
+8. add custom exception handling layer
+9. add player inventory view with skins
+10. finalize main demo and documentation
+ 
+  
+What I learned
 
 * Designing relational databases
 * Using foreign keys and many-to-many relations
@@ -211,22 +171,17 @@ Why:
 * Connecting SQL logic with Java services
 * Structuring a real backend project
 
----
-
-##  Final note
+Final note
 
 This project combines:
-
 * databases
 * Java backend
 * CS2 esports logic
 * analytics
 
 
----
 
-##  How to run
-
+How to run
 1. Create database in PostgreSQL
 2. Run `schema.sql`
 3. Open project in IntelliJ

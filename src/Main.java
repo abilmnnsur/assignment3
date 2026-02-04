@@ -150,6 +150,8 @@ public class Main {
         }
 
         System.out.println("Total inventory value: $" + String.format("%.2f", total));
+        // Sony
+            System.out.println("\n=== BARLYQ NATIZHE SHYQTY ===");
 
         System.out.println("\n=== BARLYQ NATIZHE SHYQTY ===");
 
